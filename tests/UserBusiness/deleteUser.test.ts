@@ -1,11 +1,11 @@
 import { UserBusiness } from "../../src/business/UserBusiness"
-import { SignupInputDTO } from "../../src/dtos/userDTO"
+import { DeleteUserInputDTO } from "../../src/dtos/userDTO"
 import { HashManagerMock } from "../mocks/HashManagerMock"
 import { IdGeneratorMock } from "../mocks/IdGeneratorMock"
 import { TokenManagerMock } from "../mocks/TokenManagerMock"
 import { UserDatabaseMock } from "../mocks/UserDatabaseMock"
 
-describe("signup", () => {
+describe("deleteUser", () => {
   const userBusiness = new UserBusiness(
     new UserDatabaseMock(),
     new IdGeneratorMock(),
@@ -13,14 +13,14 @@ describe("signup", () => {
     new HashManagerMock()
   )
 
-  test("Cadastrado bem sucedido, retornando o TOKEN", async () => {
-    const input: SignupInputDTO = {
-      email: "example@email.com",
-      name: "Example Mock",
-      password: "bananinha",
+  test("Deve deletar um usuário em f(id)", async () => {
+    const input: DeleteUserInputDTO = {
+      id: "id-mock",
+      token: "token-mock-admin",
     }
 
-    const response = await userBusiness.signup(input)
-    expect(response.token).toBe("token-mock-normal")
+    const response = await userBusiness.deleteUser(input)
+    // expect(response.message).toBe("USER DELETED SUCCESSFULLY")
+    expect(response).toEqual({ message: "USER DELETED SUCCESSFULLY" })
   })
 })
